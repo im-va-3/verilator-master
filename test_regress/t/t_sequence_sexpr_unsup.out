@@ -1,0 +1,11 @@
+%Error-UNSUPPORTED: t/t_sequence_sexpr_unsup.v:88:26: Unsupported: sequence argument data type
+   88 |   sequence p_arg_seqence(sequence inseq);
+      |                          ^~~~~~~~
+                    ... For error description see https://verilator.org/warn/UNSUPPORTED?v=latest
+%Error-UNSUPPORTED: t/t_sequence_sexpr_unsup.v:96:5: Unsupported: first_match with sequence_match_items
+   96 |     first_match (a, res0 = 1);
+      |     ^~~~~~~~~~~
+%Error-UNSUPPORTED: t/t_sequence_sexpr_unsup.v:99:5: Unsupported: first_match with sequence_match_items
+   99 |     first_match (a, res0 = 1, res1 = 2);
+      |     ^~~~~~~~~~~
+%Error: Exiting due to

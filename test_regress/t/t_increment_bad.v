@@ -1,0 +1,35 @@
+// DESCRIPTION: Verilator: Verilog Test module
+//
+// This file ONLY is placed under the Creative Commons Public Domain.
+// SPDX-FileCopyrightText: 2020 Wilson Snyder
+// SPDX-License-Identifier: CC0-1.0
+
+module t (
+    input clk
+);
+
+  int pos;
+  int a;
+  int b;
+  int array[2][2] = '{'{0, 1}, '{2, 3}};
+
+  string test_string = "abcd";
+
+  initial begin
+    if (0 && test_string[pos++] != "e");
+    if (1 || pos-- != 1);
+
+    if (a <-> --b);
+    if (0 -> ++b);
+
+    // ++/-- nested in ?:/-> inside a supported &&/|| must still error
+    if (1 && (a > 0 ? a++ : --b));
+    if (0 || (a > 0 -> ++b));
+
+    pos = (a > 0) ? a++ : --b;
+
+    pos = array[0][0]++;
+  end
+
+  assert property (@(posedge clk) a++ >= 0);
+endmodule

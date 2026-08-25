@@ -1,0 +1,60 @@
+---
+# DESCRIPTION: Github actions config
+# SPDX-License-Identifier: LGPL-3.0-only OR Artistic-2.0
+#
+name: format
+on:
+  push:
+    branches-ignore:
+      - 'dependabot/**'  # Avoid duplicates: only run the PR, not the push
+
+permissions:
+  contents: write
+
+defaults:
+  run:
+    working-directory: repo
+
+jobs:
+  format:
+    runs-on: ubuntu-24.04
+    name: Ubuntu 24.04 | format
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7
+        with:
+          path: repo
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install packages for build
+        uses: ./repo/.github/actions/install-deps
+        with:
+          stage: format
+
+      - name: Configure git identity
+        run: |
+          git config --global user.email "action@example.com"
+          git config --global user.name "github action"
+
+      - name: Configure
+        run: |
+          autoconf
+          ./configure
+
+      - name: Set up Python venv
+        uses: ./repo/.github/actions/setup-venv
+        with:
+          save: ${{ github.ref == 'refs/heads/master' }}
+
+      - name: Format code
+        run: |
+          source .venv/bin/activate
+          make -j 4 format CLANGFORMAT=clang-format-18
+          git status
+
+      - name: Push
+        run: |-
+          if [ -n "$(git status --porcelain)" ]; then
+            git commit . -m "Apply 'make format' [ci skip]" &&
+            git push origin
+          fi
