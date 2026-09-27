@@ -20,6 +20,7 @@ EXEMPT_FILES_RE = r'(^\.|/\.|\.gitignore$|\.dat|\.gprof|\.mem|\.out$|\.png$|\.tr
 
 EXEMPT_FILES_LIST = """
     CITATION.cff
+    CONSOLIDATION-META.json
     CPPLINT.cfg
     LICENSE
     LICENSES/
