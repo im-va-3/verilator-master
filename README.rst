@@ -180,45 +180,58 @@ Perl Artistic License Version 2.0. See the documentation for more details.
 Step-by-step usage guide
 ========================
 
-1. **Install Verilator.** Use the platform instructions at
-   https://verilator.org/guide/latest/install.html, then verify the executable::
+#. **Install Verilator.** Use the platform instructions at
+   https://verilator.org/guide/latest/install.html, then verify the
+   executable:
 
-       verilator --version
+   ::
+
+      verilator --version
 
    On Windows, use a supported toolchain or WSL.
-2. **Lint before simulation.** Run the following with your top module and RTL::
 
-       verilator --lint-only --Wall --top-module top path/to/design.sv
+#. **Lint before simulation.** Run the following with your top module and
+   RTL:
 
-   Fix width, connectivity, and unsupported-construct warnings before building.
-3. **Build a runnable model.** Use --binary with the design and testbench,
-   selecting the testbench module as the top. For example::
+   ::
 
-       verilator --binary --timing --top-module tb rtl/design.sv tb.sv
-       obj_dir/Vtb
+      verilator --lint-only --Wall --top-module top path/to/design.sv
 
-   Follow the manual's timing options when the design uses delays or events.
-4. **Connect a custom testbench.** Generate a C++ or SystemC model and
+   Fix width, connectivity, and unsupported-construct warnings before
+   building.
+
+#. **Build a runnable model.** Use --binary with the design and testbench,
+   selecting the testbench module as the top. For example:
+
+   ::
+
+      verilator --binary --timing --top-module tb rtl/design.sv tb.sv
+      obj_dir/Vtb
+
+   Follow the manual's timing options when the design uses delays or
+   events.
+
+#. **Connect a custom testbench.** Generate a C++ or SystemC model and
    instantiate it from your harness when you need custom clocks, stimulus,
    co-simulation, or integration with an existing verification framework.
-5. **Inspect behavior.** Enable tracing to write VCD/FST waveforms, assertions
-   to check invariants, and coverage points to measure what the testbench
-   exercised. View traces with GTKWave or another compatible viewer.
-6. **Scale the model.** Enable supported multithreading, partitioning, and
+#. **Inspect behavior.** Enable tracing to write VCD/FST waveforms,
+   assertions to check invariants, and coverage points to measure what the
+   testbench exercised. View traces with GTKWave or another compatible
+   viewer.
+#. **Scale the model.** Enable supported multithreading, partitioning, and
    optimization options after the single-threaded model is correct. Compare
    simulation behavior against the source RTL and preserve build flags.
 
 Functionality map
 -----------------
 
-* Verilog/SystemVerilog parsing and linting; generated optimized single- or
+- Verilog/SystemVerilog parsing and linting; generated optimized single- or
   multithreaded C++ models, SystemC output, and JSON front-end output.
-* Automatic executable generation, custom C++/SystemC harnesses, assertions,
-  coverage, timing controls, and waveform tracing.
-* Integration of generated models/libraries into other simulators and
+- Automatic executable generation, custom C++/SystemC harnesses,
+  assertions, coverage, timing controls, and waveform tracing.
+- Integration of generated models/libraries into other simulators and
   verification frameworks.
-* Use the local docs/ directory and the
-  Verilator manual at https://verilator.org/guide/latest/ for supported
-  language constructs, command-line flags, generated model APIs, coverage,
-  tracing, and performance controls.
-
+- Use the local docs/ directory and the Verilator manual at
+  https://verilator.org/guide/latest/ for supported language constructs,
+  command-line flags, generated model APIs, coverage, tracing, and
+  performance controls.
